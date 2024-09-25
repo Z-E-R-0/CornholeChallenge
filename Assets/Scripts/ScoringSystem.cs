@@ -9,6 +9,7 @@ public class ScoringSystem : MonoBehaviour
     public float rayDistance = 0.5f; // Distance of raycast from the bean bag to the ground
     public LayerMask boardLayer; // Layer of the Cornhole board for raycast detection
     private bool hasLanded = false;
+    [SerializeField] private BeanBagThrow beanBagThrow;
     void Update()
     {
         if (!hasLanded)
@@ -18,10 +19,13 @@ public class ScoringSystem : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+      //  beanBagThrow = FindFirstObjectByType<BeanBagThrow>();
         if (collision.collider.CompareTag("Board"))
         {
             Debug.Log("Bean bag landed on the board!");
             score += 1;
+
+            //SpawnNewBeanBag();
         }
     }
 
@@ -31,6 +35,7 @@ public class ScoringSystem : MonoBehaviour
         {
             Debug.Log("Bean bag scored through the hole!");
             score += 3;
+           // SpawnNewBeanBag();
         }
     }
     void CheckForBoard()
@@ -50,10 +55,18 @@ public class ScoringSystem : MonoBehaviour
                     Debug.Log("Raycast hit the board!");
                     score += 1; // Add to score if the bean bag is on the board
                     hasLanded = true; // Prevent additional scoring
+                    SpawnNewBeanBag();
                     break;
                 }
             }
         }
+    }
+
+    public void SpawnNewBeanBag()
+    {
+
+        beanBagThrow.SpawnNextBeanBag();
+
     }
 
     // Draw Gizmos to visualize the raycasts

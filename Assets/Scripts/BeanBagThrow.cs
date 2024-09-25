@@ -6,25 +6,38 @@ public class BeanBagThrow : MonoBehaviour
 {
     private Vector2 startTouchPosition;
     private Vector2 endTouchPosition;
-    private Rigidbody beanBagRigidbody;
-    [SerializeField] float maxForce;
-    // Drag values after throw to prevent sliding
+
+    [Header("Throw Settings")]
+    [SerializeField] private GameObject beanBagPrefab; // Prefab for the bean bags
+    [SerializeField] private float maxForce = 20f;
+    [SerializeField] private float upwardForce = 5f;
+    [SerializeField] private float throwForceMultiplier = 0.1f;
+
+    [Header("Drag Settings")]
     public float dragOnGround = 5f;
     public float angularDragOnGround = 5f;
+    public float airResistance = 0.2f;
 
-    // Tweakable parameters for the throw
-    public float throwForceMultiplier = 0.1f; // Adjust the overall force applied
-    public float upwardForce = 5f; // Additional vertical force
+    [Header("Bean Bag Management")]
+    public int maxBags = 4; // Max number of bags the player can throw
+    private int currentBagIndex = 0; // To track how many bags have been thrown
+    private List<GameObject> beanBags = new List<GameObject>(); // List to store the instantiated bean bags
+
+    [Header("Advanced Throw")]
+    public AnimationCurve throwForceCurve;
+    public LayerMask groundLayer;
+
+    private bool isThrown = false;
+    private Rigidbody currentBeanBagRigidbody;
 
     void Start()
     {
-        beanBagRigidbody = GetComponent<Rigidbody>();
-        ResetDrag(); // Set initial drag to 0 or low to allow the throw
+        SpawnNextBeanBag(); // Spawn the first bean bag at the start
     }
 
     void Update()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && currentBagIndex < maxBags)
         {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
@@ -37,42 +50,84 @@ public class BeanBagThrow : MonoBehaviour
                 ThrowBeanBag();
             }
         }
+
+        if (isThrown && IsOnGround(currentBeanBagRigidbody))
+        {
+            ApplyGroundDrag(currentBeanBagRigidbody);
+        }
     }
 
     void ThrowBeanBag()
     {
+        if (currentBagIndex >= maxBags) return; // Limit to max bags
+
         // Calculate swipe direction and force
         Vector2 swipeDirection = endTouchPosition - startTouchPosition;
         float swipeMagnitude = swipeDirection.magnitude * throwForceMultiplier;
 
-        // Clamp the swipe magnitude to a maximum value (for example, 20)
-        // maxForce = 20f; // You can adjust this value
+        // Clamp swipe magnitude to prevent excessive force
         swipeMagnitude = Mathf.Clamp(swipeMagnitude, 0f, maxForce);
 
-        // Throw direction and upward force for arc-like throw
+        // Apply the force curve for more control over throw behavior
+        float adjustedForce = throwForceCurve.Evaluate(swipeMagnitude / maxForce) * maxForce;
+
+        // Adjust throw direction and add upward force
         Vector3 throwDirection = new Vector3(swipeDirection.x, 0, swipeDirection.y).normalized;
-        Vector3 finalThrowDirection = throwDirection * swipeMagnitude + Vector3.up * upwardForce;
+        Vector3 finalThrowDirection = throwDirection * adjustedForce + Vector3.up * upwardForce;
 
-        // Apply force to the bean bag
-        beanBagRigidbody.AddForce(finalThrowDirection, ForceMode.Impulse);
+        // Apply impulse force to the current bean bag
+        currentBeanBagRigidbody.AddForce(finalThrowDirection, ForceMode.Impulse);
+        isThrown = true;
 
-        // Add drag when the object is thrown to slow down post-landing sliding
-        StartCoroutine(ApplyGroundDragAfterThrow());
+        // Start air resistance coroutine
+        StartCoroutine(ApplyAirResistance(currentBeanBagRigidbody));
+
+        // Move to the next bean bag
+        currentBagIndex++;
+        if (currentBagIndex < maxBags)
+        {
+            SpawnNextBeanBag(); // Spawn the next bag
+        }
     }
 
-    IEnumerator ApplyGroundDragAfterThrow()
+    public void SpawnNextBeanBag()
     {
-        // Wait for the throw to complete before applying drag
-        yield return new WaitForSeconds(0.5f); // Allow the throw to fully apply before increasing drag
+        // Instantiate a new bean bag
+        GameObject newBeanBag = Instantiate(beanBagPrefab, transform.position, Quaternion.identity);
+        beanBags.Add(newBeanBag);
+        currentBeanBagRigidbody = newBeanBag.GetComponent<Rigidbody>();
+        ResetDrag(currentBeanBagRigidbody);
+    }
 
-        // Increase drag and angular drag to prevent sliding
+    IEnumerator ApplyAirResistance(Rigidbody beanBagRigidbody)
+    {
+        // Gradually apply air resistance while the object is airborne
+        while (!IsOnGround(beanBagRigidbody))
+        {
+            beanBagRigidbody.drag = airResistance;
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f); // Allow time before applying ground drag
+        ApplyGroundDrag(beanBagRigidbody);
+    }
+
+    void ApplyGroundDrag(Rigidbody beanBagRigidbody)
+    {
+        // Apply increased drag once the bean bag lands
         beanBagRigidbody.drag = dragOnGround;
         beanBagRigidbody.angularDrag = angularDragOnGround;
+        isThrown = false;
     }
 
-    void ResetDrag()
+    bool IsOnGround(Rigidbody beanBagRigidbody)
     {
-        // Reset drag when starting or resetting the throw
+        // Raycast to check if the bean bag is on the ground
+        return Physics.Raycast(beanBagRigidbody.transform.position, Vector3.down, 1f, groundLayer);
+    }
+
+    void ResetDrag(Rigidbody beanBagRigidbody)
+    {
+        // Reset drag for initial throw conditions
         beanBagRigidbody.drag = 0f;
         beanBagRigidbody.angularDrag = 0.05f;
     }

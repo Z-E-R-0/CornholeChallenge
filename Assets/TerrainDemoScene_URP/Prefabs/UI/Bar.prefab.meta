@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: dcda5e5657d4446db8f60546395551e7
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Prefabs/UI/Bar.prefab
+  uploadId: 531585

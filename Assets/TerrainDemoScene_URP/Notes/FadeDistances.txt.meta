@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 508aa7bfe1ce5c34d8fe95a10a6ce1a3
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Notes/FadeDistances.txt
+  uploadId: 531585

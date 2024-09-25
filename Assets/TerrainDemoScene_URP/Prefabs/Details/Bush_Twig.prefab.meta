@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0d2d600394cae8e4f908c5bdd1154222
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Prefabs/Details/Bush_Twig.prefab
+  uploadId: 531585

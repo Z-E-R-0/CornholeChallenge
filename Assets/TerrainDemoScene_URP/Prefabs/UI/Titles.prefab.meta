@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 345999c63f4884032a682d06a8a79910
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Prefabs/UI/Titles.prefab
+  uploadId: 531585

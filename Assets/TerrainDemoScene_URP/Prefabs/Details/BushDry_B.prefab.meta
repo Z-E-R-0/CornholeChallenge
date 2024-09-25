@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 054bf5cf244ff2e4083cbf8eca205cf0
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Prefabs/Details/BushDry_B.prefab
+  uploadId: 531585

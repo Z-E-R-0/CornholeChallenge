@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a5cad9e358345494daade076bc2e6855
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Notes/Layers.txt
+  uploadId: 531585

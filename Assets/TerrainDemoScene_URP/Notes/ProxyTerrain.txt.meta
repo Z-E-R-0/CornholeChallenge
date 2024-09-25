@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 7230214813bdfa34087d0c6274e8e723
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Notes/ProxyTerrain.txt
+  uploadId: 531585

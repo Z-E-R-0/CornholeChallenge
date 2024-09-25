@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 04a340464487e4a03b3225dd0fb88e01
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Prefabs/Shots/SatelliteShot.prefab
+  uploadId: 531585

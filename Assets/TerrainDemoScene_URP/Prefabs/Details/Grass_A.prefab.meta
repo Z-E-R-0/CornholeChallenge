@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4e6885e0d11bd224fa27617a4657c329
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 213197
+  packageName: Unity Terrain - URP Demo Scene
+  packageVersion: 1.0.2
+  assetPath: Assets/TerrainDemoScene_URP/Prefabs/Details/Grass_A.prefab
+  uploadId: 531585
