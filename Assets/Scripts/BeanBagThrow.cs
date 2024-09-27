@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class BeanBagThrow : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class BeanBagThrow : MonoBehaviour
     [SerializeField] private float maxForce = 20f;
     [SerializeField] private float upwardForce = 5f;
     [SerializeField] private float throwForceMultiplier = 0.1f;
+    [SerializeField] public ToggleCamera toggleCamera;
 
     [Header("Drag Settings")]
     public float dragOnGround = 5f;
@@ -59,6 +61,7 @@ public class BeanBagThrow : MonoBehaviour
 
     void ThrowBeanBag()
     {
+        toggleCamera.ToggleCameras();
         if (currentBagIndex >= maxBags) return; // Limit to max bags
 
         // Calculate swipe direction and force
@@ -79,6 +82,11 @@ public class BeanBagThrow : MonoBehaviour
         currentBeanBagRigidbody.AddForce(finalThrowDirection, ForceMode.Impulse);
         isThrown = true;
 
+        // Set the current bean bag as the follow target of the Cinemachine virtual camera
+        CinemachineVirtualCamera cinemachineVirtualCamera = toggleCamera.cam2.GetComponent<CinemachineVirtualCamera>();
+        cinemachineVirtualCamera.Follow = currentBeanBagRigidbody.transform;
+        cinemachineVirtualCamera.LookAt = currentBeanBagRigidbody.transform;
+
         // Start air resistance coroutine
         StartCoroutine(ApplyAirResistance(currentBeanBagRigidbody));
 
@@ -89,6 +97,7 @@ public class BeanBagThrow : MonoBehaviour
             SpawnNextBeanBag(); // Spawn the next bag
         }
     }
+
 
     public void SpawnNextBeanBag()
     {
